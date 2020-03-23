@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <vector>
 
 // The following code calls a naive algorithm for computing a Fibonacci number.
 //
@@ -20,26 +21,27 @@ int fibonacci_naive(int n) {
 
     return fibonacci_naive(n - 1) + fibonacci_naive(n - 2);
 }
-
-int fibonacci_fast(int n) {
-    // write your code here
-
-    return 0;
+long long fibonacci_fast(std::vector<long long>& dp, int n) {
+    if(n <= 1)
+        dp[(long long)n] = (long long)n;
+    if(dp[(long long)n] == -1)
+        dp[(long long)n] = fibonacci_fast(dp, n-1)+fibonacci_fast(dp, n-2);
+    return dp[(long long)n];
 }
 
-void test_solution() {
-    assert(fibonacci_fast(3) == 2);
-    assert(fibonacci_fast(10) == 55);
+void test_solution(std::vector<long long>& dp) {
+    assert(fibonacci_fast(dp, 3) == 2);
+    assert(fibonacci_fast(dp, 10) == 55);
     for (int n = 0; n < 20; ++n)
-        assert(fibonacci_fast(n) == fibonacci_naive(n));
+        assert(fibonacci_fast(dp, n) == fibonacci_naive(n));
 }
 
 int main() {
     int n = 0;
     std::cin >> n;
-
-    std::cout << fibonacci_naive(n) << '\n';
-    //test_solution();
-    //std::cout << fibonacci_fast(n) << '\n';
+    std::vector<long long> dp(n+1, -1);
+    //std::cout << fibonacci_naive(n) << '\n';
+    //test_solution(dp);
+    std::cout << fibonacci_fast(dp, n) << '\n';
     return 0;
 }
