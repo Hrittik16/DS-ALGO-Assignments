@@ -8,9 +8,20 @@ long long lcm_naive(int a, int b) {
   return (long long) a * b;
 }
 
+int gcd(int a, int b) {
+	if(a == 0)
+		return b;
+	return gcd(b%a, a);
+}
+
+long long lcm_fast(int a, int b) {
+	long long lcm = ((long long)a*(long long)b)/gcd(a, b);
+	return lcm;
+}
+
 int main() {
   int a, b;
   std::cin >> a >> b;
-  std::cout << lcm_naive(a, b) << std::endl;
+  std::cout << lcm_fast(a, b) << std::endl;
   return 0;
 }
